@@ -1,29 +1,46 @@
-# Django React Boilerplate
+# AVILA TEK PROJECT
 
-[![alt text](https://github.com/justdjango/django-react-boilerplate/blob/master/thumbnail.png "Logo")](https://youtu.be/YKYVv0gm_0o)
-
-This repository contains a boilerplate project setup for Django and React. The project contains backend user authentication with the Django Rest Framework and rest-auth. The frontend has react redux setup for user authentication by storing the token in localstorage.
-
-[Watch the tutorial on how to integrate Django and React](https://youtu.be/YKYVv0gm_0o)
+this repository contains a recruitment project for avila tek
 
 ## Backend development workflow
 
-```json
-virtualenv env
-source env/bin/activate
-pip install -r requirements.txt
+```
+pipenv shell
+pipenv install
+python manage.py makemigrations
+python manage.py migrate
 python manage.py runserver
 ```
 
 ## Frontend development workflow
 
-```json
-npm i
+```
+npm install 
 npm start
 ```
 
-## For deploying
+## API End Points
 
-```json
-npm run build
-```
+* Show all users
+    ```
+    /api/users/
+    ```
+* Show all products
+    ```
+    /api/products/
+    ```
+* Show all categories
+    ```
+    /api/categories/
+    ```
+* Show all favorites products per user
+    ```
+    /api/favorites/
+    ```
+* Show all attributes
+    ```
+    /api/attributes/
+* Show all attributes with the value and product
+    ```
+    /api/products-attributes/
+    ```

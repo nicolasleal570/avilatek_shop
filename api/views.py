@@ -60,10 +60,16 @@ class CategoryListView(ListAPIView):
     queryset = Category.objects.all()
 
 
-class FavoriteListView(ListAPIView):
-    permission_classes = (AllowAny,)
+class FavoriteListView(RetrieveAPIView):
     serializer_class = FavoriteSerializer
-    queryset = Favorite.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        try:
+            favorite = Favorite.objects.get(user=self.request.user)
+            return favorite
+        except ObjectDoesNotExist:
+            raise Http404("Aun no has agregado objetos a tus favoritos.")
 
 
 class AttributeListView(ListAPIView):
