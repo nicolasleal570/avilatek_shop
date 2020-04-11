@@ -13,7 +13,7 @@ export const productStart = () => {
 export const productSuccess = (products) => {
     return {
         type: actionTypes.GET_PRODUCTS_SUCCESS,
-        products: [...products.results]
+        products: [...products]
     }
 }
 

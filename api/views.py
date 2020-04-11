@@ -52,21 +52,21 @@ class ProductListView(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
-    pagination_class = ProductsLimitOffsetPagination
+    # pagination_class = ProductPageNumberPagination
 
 
 class ProductAttributesListView(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = ProductAttributeSerializer
     queryset = ProductAttribute.objects.all()
-    pagination_class = ProductsLimitOffsetPagination
+    # pagination_class = ProductsLimitOffsetPagination
 
 
 class CategoryListView(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
-    pagination_class = ProductsLimitOffsetPagination
+    # pagination_class = ProductsLimitOffsetPagination
 
 
 class FavoriteListView(RetrieveAPIView):
@@ -85,7 +85,7 @@ class AttributeListView(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = AttributeSerializer
     queryset = Attribute.objects.all()
-    pagination_class = ProductsLimitOffsetPagination
+    # pagination_class = ProductsLimitOffsetPagination
 
 
 class AddToFavorite(APIView):

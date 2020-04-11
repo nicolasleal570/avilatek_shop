@@ -11,7 +11,7 @@ export const startCategory = () => {
 export const successCategory = (categories) => {
     return {
         type: actionTypes.GET_CATEGORIES_SUCCESS,
-        categories: [...categories.results]
+        categories: [...categories]
     }
 }
 
