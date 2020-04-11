@@ -20,7 +20,7 @@ const HomeHero = (props) => {
                     </div>
 
                     <div className="w-full md:w-3/5 py-6 text-center">
-                        <img className="w-full md:w-4/5 z-50" src={heroImg} />
+                        <img className="w-full md:w-4/5 z-50" alt="Hero image from home page" src={heroImg} />
                     </div>
 
                 </div>

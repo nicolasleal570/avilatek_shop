@@ -1,6 +1,5 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 import Navbar from '../components/Navbar';
 

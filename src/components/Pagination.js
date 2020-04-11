@@ -17,13 +17,6 @@ class Pagination extends React.Component {
         this.state = { pager: {} };
     }
 
-    componentWillMount() {
-        // set page if items array isn't empty
-        if (this.props.items && this.props.items.length) {
-            this.setPage(this.props.initialPage);
-        }
-    }
-
     componentDidUpdate(prevProps, prevState) {
         // reset page if items array has changed
         if (this.props.items !== prevProps.items) {
@@ -50,7 +43,7 @@ class Pagination extends React.Component {
             this.setState({ pager: pager });
 
             // call change page function in parent component
-            this.props.onChangePage(pageOfItems);
+            this.props.onChangePage(pageOfItems, page);
         }
     }
 
@@ -119,7 +112,7 @@ class Pagination extends React.Component {
         let lastBtnCanActivate = pager.currentPage === pager.totalPages;
 
         return (
-            <ul className="w-full flex">
+            <ul className="w-full flex mt-10">
                 <li className={firstBtnCanActivate ? `${btnClass} text-gray-400 cursor-not-allowed` : `${btnClass} text-white`}>
                     <button onClick={(firstBtnCanActivate) => this.setPage(1, firstBtnCanActivate)}>First</button>
                 </li>
@@ -144,42 +137,5 @@ class Pagination extends React.Component {
 
 Pagination.propTypes = propTypes;
 Pagination.defaultProps = defaultProps;
-
-class PagesSelector extends React.Component {
-    constructor() {
-        super();
-
-        // an example array of items to be paged
-        let exampleItems = [...Array(150).keys()].map(i => ({ id: (i + 1), name: 'Item ' + (i + 1) }));
-
-        this.state = {
-            exampleItems: exampleItems,
-            pageOfItems: []
-        };
-
-        // bind function in constructor instead of render (https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md)
-        this.onChangePage = this.onChangePage.bind(this);
-    }
-
-    onChangePage(pageOfItems) {
-        // update state with new page of items
-        this.setState({ pageOfItems: pageOfItems });
-    }
-
-    render() {
-        return (
-            <div>
-                <div className="bg-gray-100 py-8">
-                    <div className="container mx-auto flex flex-wrap pt-4 pb-12">
-                        {this.state.pageOfItems.map(item =>
-                            <div key={item.id}>{item.name}</div>
-                        )}
-                        <Pagination items={this.state.exampleItems} onChangePage={this.onChangePage} />
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
 
 export default Pagination;
