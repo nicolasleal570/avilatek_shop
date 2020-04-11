@@ -7,7 +7,7 @@ import Cards from '../components/CategoryCards';
 
 export class Categories extends Component {
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.getCategories()
     }
 

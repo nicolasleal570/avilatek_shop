@@ -1,5 +1,8 @@
 import * as actionTypes from './actionTypes';
-import axios from 'axios';
+import { publicAxios } from '../../http/utils';
+import { productListURL } from '../../http/urls';
+
+
 
 export const productStart = () => {
     return {
@@ -10,7 +13,7 @@ export const productStart = () => {
 export const productSuccess = (products) => {
     return {
         type: actionTypes.GET_PRODUCTS_SUCCESS,
-        products: [...products]
+        products: [...products.results]
     }
 }
 
@@ -24,6 +27,6 @@ export const productFail = (err) => {
 export const getProducts = () => {
     return dispatch => {
         dispatch(productStart())
-        axios.get('http://localhost:8000/api/products/').then(res => dispatch(productSuccess(res.data))).catch(err => dispatch(productFail(err)));
+        publicAxios.get(productListURL).then(res => dispatch(productSuccess(res.data))).catch(err => dispatch(productFail(err)));
     }
 }

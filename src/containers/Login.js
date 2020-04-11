@@ -67,16 +67,16 @@ class LoginForm extends React.Component {
 							</div>
 							<div className="mb-6">
 								<p className="text-gray-500 text-sm">
-									Eres un miembro nuevo? <Link className="text-sm text-rosa-100 hover:text-blue-800" to="/signup">Regístrate</Link>
+									Eres un miembro nuevo? <Link className="text-sm text-avilaGreen-200 hover:text-blue-800" to="/signup">Regístrate</Link>
 								</p>
 							</div>
 							<div className="flex items-center justify-between">
 								<button
-									className="inline-block px-4 py-2 mr-4 hover:text-gray-800 bg-rosa-100 text-white font-bold rounded-full shadow-lg"
+									className="inline-block px-4 py-2 mr-4 hover:text-gray-800 bg-avilaGreen-200 text-white font-bold rounded-full shadow-lg"
 									type="submit">
 									Entrar
 								</button>
-								<Link className="inline-block align-baseline font-bold text-sm text-rosa-100  hover:text-blue-800" to="">
+								<Link className="inline-block align-baseline font-bold text-sm text-avilaGreen-200  hover:text-blue-800" to="">
 									Forgot Password?
 								</Link>
 							</div>

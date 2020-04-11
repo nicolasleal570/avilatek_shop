@@ -1,4 +1,7 @@
 from rest_framework import serializers
+from rest_framework.response import Response
+from rest_framework import status
+
 from .models import (
     Product,
     Category,
@@ -8,6 +11,7 @@ from .models import (
 )
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.core.paginator import Paginator
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -66,7 +70,24 @@ class FavoriteSerializer(serializers.ModelSerializer):
         fields = ('id', 'products', 'user')
 
     def get_products(self, obj):
-        return ProductSerializer(obj.products.all(), many=True).data
+        page_size = self.context['request'].query_params.get('size') or 5
+        paginator = Paginator(obj.products.all(), page_size)
+        page = self.context['request'].query_params.get('page') or 1
+
+        products_in_page = paginator.page(page)
+        serializer = ProductSerializer(products_in_page, many=True)
+
+        return serializer.data
 
     def get_user(self, obj):
         return UserSerializer(obj.user).data
+
+    def paginated_products(self, obj):
+        page_size = self.context['request'].query_params.get('size') or 1
+        paginator = Paginator(obj.products.all(), page_size)
+        page = self.context['request'].query_params.get('page') or 1
+
+        products_in_page = paginator.page(page)
+        serializer = ProductSerializer(products_in_page, many=True)
+
+        return serializer.data

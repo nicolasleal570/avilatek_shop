@@ -17,7 +17,7 @@ const Card = (props) => {
             </div>
             <div className="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow">
                 <div className="flex items-center justify-center">
-                    <button className="mx-auto lg:mx-0 hover:underline bg-rosa-100 text-white font-bold rounded-full my-4 py-4 px-8 shadow-lg">Visitar</button>
+                    <button className="mx-auto lg:mx-0 hover:underline bg-avilaGreen-200 text-white font-bold rounded-full my-4 py-4 px-8 shadow-lg">Visitar</button>
                 </div>
             </div>
         </div>

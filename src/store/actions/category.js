@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
-import axios from 'axios';
+import { publicAxios } from '../../http/utils';
+import { categoryListURL } from '../../http/urls'
 
 export const startCategory = () => {
     return {
@@ -10,7 +11,7 @@ export const startCategory = () => {
 export const successCategory = (categories) => {
     return {
         type: actionTypes.GET_CATEGORIES_SUCCESS,
-        categories: [...categories]
+        categories: [...categories.results]
     }
 }
 
@@ -24,11 +25,7 @@ export const failCategory = (err) => {
 export const getCategories = () => {
     return dispatch => {
         dispatch(startCategory())
-        axios.get('http://localhost:8000/api/categories').then(res => {
-            dispatch(successCategory(res.data));
-        }).catch(err => {
-            dispatch(failCategory(err));
-        });
+        publicAxios.get(categoryListURL).then(res => dispatch(successCategory(res.data))).catch(err => dispatch(failCategory(err)));
     }
 }
 

@@ -24,7 +24,7 @@ const categorySuccess = (state, action) => {
 
 const categoryFail = (state, action) => {
     return updateObject(state, {
-        categories: null,
+        categories: [],
         error: action.error,
         loading: false
     });

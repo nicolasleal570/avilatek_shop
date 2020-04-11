@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.shortcuts import get_object_or_404
-from .serializers import UserSerializer
 from rest_framework import viewsets
 from rest_framework.generics import (
     ListAPIView, RetrieveAPIView, CreateAPIView,
@@ -15,7 +14,9 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
+
+from .serializers import UserSerializer
 
 from django.contrib.auth.models import User
 from .models import (
@@ -35,6 +36,11 @@ from .serializers import (
     ProductAttributeSerializer
 )
 
+from .pagination import (
+    ProductsLimitOffsetPagination,
+    ProductPageNumberPagination
+)
+
 
 class UserListView(ListAPIView):
     permission_classes = (AllowAny,)
@@ -46,18 +52,21 @@ class ProductListView(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+    pagination_class = ProductsLimitOffsetPagination
 
 
 class ProductAttributesListView(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = ProductAttributeSerializer
     queryset = ProductAttribute.objects.all()
+    pagination_class = ProductsLimitOffsetPagination
 
 
 class CategoryListView(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+    pagination_class = ProductsLimitOffsetPagination
 
 
 class FavoriteListView(RetrieveAPIView):
@@ -76,3 +85,31 @@ class AttributeListView(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = AttributeSerializer
     queryset = Attribute.objects.all()
+    pagination_class = ProductsLimitOffsetPagination
+
+
+class AddToFavorite(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        slug = request.data.get('slug', None)
+        user = request.user
+
+        if slug is None:
+            return Response({"message": "El slug es requerido"}, status=HTTP_400_BAD_REQUEST)
+
+        product = get_object_or_404(Product, slug=slug)
+
+        favorites = Favorite.objects.filter(user=user)
+
+        if favorites.exists():
+            favorite = favorites.first()
+            favorite.products.add(product)
+        else:
+            favorite = Favorite.objects.create(
+                user=user
+            )
+            favorite.products.add(product)
+            favorite.save()
+
+        return Response(status=HTTP_200_OK)
