@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { authLogin } from "../store/actions/auth";
 
+import Loader from '../components/Loader';
+
 class LoginForm extends React.Component {
 	state = {
 		username: "",
@@ -38,52 +40,57 @@ class LoginForm extends React.Component {
 						</div>
 
 						{error && <p className="text-red-500 text-xs italic">{this.props.error.message}</p>}
-						<form onSubmit={this.handleSubmit}>
-							<div className="mb-4">
-								<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-									Nombre de Usuario
+
+						{
+							loading ? <Loader spinnerType='big' /> : <form onSubmit={this.handleSubmit}>
+								<div className="mb-4">
+									<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+										Nombre de Usuario
 								</label>
-								<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-									id="username"
-									type="text"
-									name="username"
-									placeholder="Username"
-									onChange={this.handleChange}
-									value={username}
-								/>
-							</div>
-							<div className="mb-6">
-								<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-									Contraseña
+									<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+										id="username"
+										type="text"
+										name="username"
+										placeholder="Username"
+										onChange={this.handleChange}
+										value={username}
+									/>
+								</div>
+								<div className="mb-6">
+									<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+										Contraseña
 								</label>
-								<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-									id="password"
-									type="password"
-									name="password"
-									placeholder="******************"
-									onChange={this.handleChange}
-									value={password}
-								/>
-							</div>
-							<div className="mb-6">
-								<p className="text-gray-500 text-sm">
-									Eres un miembro nuevo? <Link className="text-sm text-avilaGreen-200 hover:text-blue-800" to="/signup">Regístrate</Link>
-								</p>
-							</div>
-							<div className="flex items-center justify-between">
-								<button
-									className="inline-block px-4 py-2 mr-4 hover:text-gray-800 bg-avilaGreen-200 text-white font-bold rounded-full shadow-lg"
-									type="submit">
-									Entrar
+									<input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+										id="password"
+										type="password"
+										name="password"
+										placeholder="******************"
+										onChange={this.handleChange}
+										value={password}
+									/>
+								</div>
+								<div className="mb-6">
+									<p className="text-gray-500 text-sm">
+										Eres un miembro nuevo? <Link className="text-sm text-avilaGreen-200 hover:text-blue-800" to="/signup">Regístrate</Link>
+									</p>
+								</div>
+								<div className="flex items-center justify-between">
+									<button
+										className="inline-block px-4 py-2 mr-4 hover:text-gray-800 bg-avilaGreen-200 text-white font-bold rounded-full shadow-lg"
+										type="submit">
+										Entrar
 								</button>
-								<Link className="inline-block align-baseline font-bold text-sm text-avilaGreen-200  hover:text-blue-800" to="">
-									Forgot Password?
+									<Link className="inline-block align-baseline font-bold text-sm text-avilaGreen-200  hover:text-blue-800" to="">
+										Forgot Password?
 								</Link>
-							</div>
-						</form>
+								</div>
+							</form>
+						}
+
 						<p className="text-center text-white text-xs">
 							&copy;2020 Avila Tek Shop. All rights reserved.
 						</p>
+
 					</div>
 				</div>
 			</div>

@@ -1,16 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { logout } from "../store/actions/auth";
-
+import Loader from './Loader';
 const Navbar = (props) => {
+    const [redirect, setRedirect] = useState(false);
+
+    const btnLogout = () => {
+        props.logout();
+        setRedirect(true)
+    }
 
     const { authenticated } = props;
 
     let btnForLoginOrLogout = (
         <div>
+            {redirect ? <Redirect to='/' /> : null}
             <NavLink to="/login" className="inline-block px-4 py-2 mr-4 hover:underline bg-white text-gray-800 font-bold rounded-full shadow-lg">Iniciar Sesión</NavLink>
             <NavLink to="/signup" className="inline-block px-4 py-2 mr-4 hover:underline font-bold rounded-full shadow-lg border text-white border-white hover:border-transparent hover:text-gray-800 hover:bg-white">Registrarse</NavLink>
         </div>
@@ -20,7 +27,7 @@ const Navbar = (props) => {
         btnForLoginOrLogout = (
             <div>
                 <p className="inline-block text-white mr-8">Bienvenido, <span className="font-semibold">{props.username}</span> </p>
-                <button onClick={() => props.logout()}
+                <button onClick={() => btnLogout()}
                     className="inline-block px-4 py-2 mr-4 hover:underline bg-white text-gray-800 font-bold rounded-full shadow-lg">Cerrar Sesión</button>
             </div>
         )

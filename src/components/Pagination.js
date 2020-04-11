@@ -8,13 +8,20 @@ const propTypes = {
 }
 
 const defaultProps = {
-    initialPage: 1
+    initialPage: 1,
+    pageSize: 2
 }
 
 class Pagination extends React.Component {
     constructor(props) {
         super(props);
         this.state = { pager: {} };
+    }
+
+    componentDidMount() {
+        if (this.props.items.length > 0) {
+            this.setPage(this.props.initialPage);
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -43,7 +50,7 @@ class Pagination extends React.Component {
             this.setState({ pager: pager });
 
             // call change page function in parent component
-            this.props.onChangePage(pageOfItems, page);
+            this.props.onChangePage(pageOfItems, page, this.props.pageSize);
         }
     }
 
@@ -52,7 +59,7 @@ class Pagination extends React.Component {
         currentPage = currentPage || 1;
 
         // default page size is 10
-        pageSize = pageSize || 5;
+        pageSize = pageSize || this.props.pageSize;
 
         // calculate total pages
         let totalPages = Math.ceil(totalItems / pageSize);
@@ -105,30 +112,45 @@ class Pagination extends React.Component {
             return null;
         }
 
-        let btnClass = 'inline-block border border-avilaGreen-200 rounded py-1 px-3 bg-avilaGreen-200 flex-auto mx-1 text-white text-center';
-        let numClass = 'inline-block border rounded py-1 px-3 flex-auto mx-1 text-white text-center';
+        let btnClass = 'inline-block border rounded bg-avilaGreen-200 mx-1 text-white text-center';
+        let numClass = 'inline-block border rounded mx-1 text-white text-center';
 
         let firstBtnCanActivate = pager.currentPage === 1;
         let lastBtnCanActivate = pager.currentPage === pager.totalPages;
 
         return (
-            <ul className="w-full flex mt-10">
+            <ul className="bg-white w-full flex flex-wrap justify-center py-5">
                 <li className={firstBtnCanActivate ? `${btnClass} text-gray-400 cursor-not-allowed` : `${btnClass} text-white`}>
-                    <button onClick={(firstBtnCanActivate) => this.setPage(1, firstBtnCanActivate)}>First</button>
+                    <button
+                        onClick={(firstBtnCanActivate) => this.setPage(1, firstBtnCanActivate)}
+                        className="block w-full py-1 px-3"
+                    >First</button>
                 </li>
                 <li className={firstBtnCanActivate ? `${btnClass} text-gray-400 cursor-not-allowed` : `${btnClass} text-white`}>
-                    <button onClick={(firstBtnCanActivate) => this.setPage(pager.currentPage - 1, firstBtnCanActivate)}>Previous</button>
+                    <button
+                        onClick={(firstBtnCanActivate) => this.setPage(pager.currentPage - 1, firstBtnCanActivate)}
+                        className="block w-full py-1 px-3"
+                    >Previous</button>
                 </li>
                 {pager.pages.map((page, index) =>
-                    <li key={index} className={pager.currentPage === page ? `${numClass} font-bold border-avilaGreen-300 bg-avilaGreen-300` : `${numClass} bg-avilaGreen-200 font-normal`}>
-                        <button onClick={() => this.setPage(page)}>{page}</button>
+                    <li key={index} className={pager.currentPage === page ? `${numClass} font-bold border-avilaGreen-300 gradient` : `${numClass} bg-avilaGreen-200 font-normal`}>
+                        <button
+                            onClick={() => this.setPage(page)}
+                            className="block w-full py-1 px-3"
+                        >{page}</button>
                     </li>
                 )}
                 <li className={lastBtnCanActivate ? `${btnClass} text-gray-400 cursor-not-allowed` : `${btnClass} text-white`}>
-                    <button onClick={(lastBtnCanActivate) => this.setPage(pager.currentPage + 1, lastBtnCanActivate)}>Next</button>
+                    <button
+                        onClick={(lastBtnCanActivate) => this.setPage(pager.currentPage + 1, lastBtnCanActivate)}
+                        className="block w-full py-1 px-3"
+                    >Next</button>
                 </li>
                 <li className={lastBtnCanActivate ? `${btnClass} text-gray-400 cursor-not-allowed` : `${btnClass} text-white`}>
-                    <button onClick={(lastBtnCanActivate) => this.setPage(pager.totalPages, lastBtnCanActivate)}>Last</button>
+                    <button
+                        onClick={(lastBtnCanActivate) => this.setPage(pager.totalPages, lastBtnCanActivate)}
+                        className="block w-full py-1 px-3"
+                    >Last</button>
                 </li>
             </ul>
         );
