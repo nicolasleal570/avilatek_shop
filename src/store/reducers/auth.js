@@ -4,6 +4,7 @@ import { updateObject } from "../utility";
 const initialState = {
   token: null,
   error: null,
+  username: '',
   loading: false
 };
 
@@ -18,6 +19,7 @@ const authSuccess = (state, action) => {
   return updateObject(state, {
     token: action.token,
     error: null,
+    username: action.username,
     loading: false
   });
 };
@@ -31,7 +33,8 @@ const authFail = (state, action) => {
 
 const authLogout = (state, action) => {
   return updateObject(state, {
-    token: null
+    token: null,
+    username: ''
   });
 };
 

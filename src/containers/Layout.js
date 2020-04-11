@@ -1,58 +1,18 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { logout } from "../store/actions/auth";
+
+import Navbar from '../components/Navbar';
 
 class CustomLayout extends React.Component {
 	render() {
-		const { authenticated } = this.props;
 		return (
 			<div>
-				MENU VA AQUI
-				{/* <Menu fixed="top" inverted>
-					<Container>
-						<Link to="/">
-							<Menu.Item header>Home</Menu.Item>
-						</Link>
-						{authenticated ? (
-							<Menu.Item header onClick={() => this.props.logout()}>
-								Logout
-							</Menu.Item>
-						) : (
-								<React.Fragment>
-									<Link to="/login">
-										<Menu.Item header>Login</Menu.Item>
-									</Link>
-									<Link to="/signup">
-										<Menu.Item header>Signup</Menu.Item>
-									</Link>
-								</React.Fragment>
-							)}
-					</Container>
-				</Menu> */}
-
+				<Navbar />
 				{this.props.children}
-
 			</div>
 		);
 	}
 }
 
-const mapStateToProps = state => {
-	return {
-		authenticated: state.auth.token !== null
-	};
-};
-
-const mapDispatchToProps = dispatch => {
-	return {
-		logout: () => dispatch(logout())
-	};
-};
-
-export default withRouter(
-	connect(
-		mapStateToProps,
-		mapDispatchToProps
-	)(CustomLayout)
-);
+export default withRouter(CustomLayout);
