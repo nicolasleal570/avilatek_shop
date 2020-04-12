@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 
 const propTypes = {
-    items: PropTypes.array.isRequired,
+    // items: PropTypes.array.isRequired,
     onChangePage: PropTypes.func.isRequired,
     initialPage: PropTypes.number
 }
@@ -19,8 +19,10 @@ class Pagination extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.items.length > 0) {
-            this.setPage(this.props.initialPage);
+        if (this.props.items) {
+            if (this.props.items.length > 0) {
+                this.setPage(this.props.initialPage);
+            }
         }
     }
 

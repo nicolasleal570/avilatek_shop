@@ -37,7 +37,7 @@ const Card = (props) => {
                     <p className="text-gray-800 text-base px-6 mb-5">{description}</p>
                 </Link>
                 <div className="px-6 py-2 mb-4">
-                    <Link to="/" className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 capitalize"># {category.public_name}</Link>
+                    <Link to={`/categorias/${category.slug}`} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 capitalize"># {category.public_name}</Link>
                 </div>
                 <div className="px-6 py-2 text-center">
                     <span className="font-bold"> $ {price}</span>
@@ -45,7 +45,9 @@ const Card = (props) => {
             </div>
             <div className="mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow">
                 {loading ? <Loader spinnerType='big' /> : <div className="flex items-center justify-start px-6">
-                    <Link to="/" className="hover:underline bg-gray-500 text-white font-bold rounded-full my-4 py-2 px-8 shadow-lg">Visitar</Link>
+                    <Link to={`/products/${slug}`}
+                        className="hover:underline bg-gray-500 text-white font-bold rounded-full my-4 py-2 px-8 shadow-lg"
+                    >Visitar</Link>
 
                     {props.isAuthenticated ? <button onClick={() => newElemToFav(slug)} className="hover:underline bg-avilaGreen-200 text-white font-bold rounded-full my-4 py-2 px-6 shadow-lg mx-2">Favorito</button> : null}
                 </div>}
