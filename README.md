@@ -23,24 +23,36 @@ npm start
 
 * Show all users
     ```
-    /api/users/
+    GET: /api/users/
     ```
 * Show all products
     ```
-    /api/products/
+    GET: /api/products/
+* Show one product
+    ```
+    GET: /api/products/<slug>/
     ```
 * Show all categories
     ```
-    /api/categories/
+    GET: /api/categories/
+* Show one categorie
+    ```
+    GET: /api/categories/<slug>/
     ```
 * Show all favorites products per user
     ```
-    /api/favorites/
+    GET: /api/favorites/
     ```
 * Show all attributes
     ```
-    /api/attributes/
+    GET: /api/attributes/
 * Show all attributes with the value and product
     ```
-    /api/products-attributes/
+    GET: /api/products-attributes/
+* Add one product in the request user favorites products
+    ```
+    POST: /api/add-to-favorite/
+* Remove one product in the request user favorites products
+    ```
+    POST: /api/remove-from-favorite/
     ```
