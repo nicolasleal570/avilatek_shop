@@ -113,3 +113,24 @@ class AddToFavorite(APIView):
             favorite.save()
 
         return Response(status=HTTP_200_OK)
+
+
+class RemoveFromFavorite(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        slug = request.data.get('slug', None)
+        user = request.user
+
+        if slug is None:
+            return Response({"message": "El slug es requerido"}, status=HTTP_400_BAD_REQUEST)
+
+        product = get_object_or_404(Product, slug=slug)
+
+        favorites = Favorite.objects.filter(user=user)
+
+        if favorites.exists():
+            favorite = favorites.first()
+            favorite.products.remove(product)
+
+        return Response(status=HTTP_200_OK)

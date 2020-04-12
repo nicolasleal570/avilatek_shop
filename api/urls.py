@@ -7,7 +7,8 @@ from .views import (
     CategoryListView,
     FavoriteListView,
     AttributeListView,
-    AddToFavorite
+    AddToFavorite,
+    RemoveFromFavorite
 )
 
 app_name = 'api'
@@ -21,4 +22,6 @@ urlpatterns = [
     path('favorites/', FavoriteListView.as_view(), name='favorites'),
     path('attributes/', AttributeListView.as_view(), name='attributes'),
     path('add-to-favorite/', AddToFavorite.as_view(), name='add-to-favorite'),
+    path('remove-from-favorite/', RemoveFromFavorite.as_view(),
+         name='remove-from-favorite'),
 ]

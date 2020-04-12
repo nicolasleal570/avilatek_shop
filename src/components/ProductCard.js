@@ -5,17 +5,19 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getFavorites } from '../store/actions/favorite'
 
+import { authAxios } from '../http/utils';
+import { addToFavorite } from '../http/urls'
+
 const Card = (props) => {
 
     const { id, name, description, price, slug, category } = props.product;
 
-    const isFav = props.favProducts.find(item => slug === item.slug);
-    const [isClicked, setIsClicked] = useState(isFav)
-
     const newElemToFav = slug => {
-        if (!isClicked) {
-            props.addToFavorite(slug)
-            setIsClicked(true)
+        if (props.isAuthenticated) {
+            authAxios.post(addToFavorite, { slug }).then(res => {
+                console.log('[NEW ELEM] ', slug);
+                alert('Elemento agregado correctamente!');
+            }).catch(err => console.log(err))
         }
     }
 
@@ -39,7 +41,7 @@ const Card = (props) => {
                 <div className="flex items-center justify-start px-6">
                     <Link to="/" className="hover:underline bg-gray-500 text-white font-bold rounded-full my-4 py-2 px-8 shadow-lg">Visitar</Link>
 
-                    {!isClicked ? <button onClick={() => newElemToFav(slug)} className="hover:underline bg-avilaGreen-200 text-white font-bold rounded-full my-4 py-2 px-6 shadow-lg mx-2">Favorito</button> : null}
+                    <button onClick={() => newElemToFav(slug)} className="hover:underline bg-avilaGreen-200 text-white font-bold rounded-full my-4 py-2 px-6 shadow-lg mx-2">Favorito</button>
                 </div>
             </div>
         </div>
@@ -51,6 +53,7 @@ const mapStateToProps = state => {
         error: state.favorite.error,
         loading: state.favorite.loading,
         favProducts: state.favorite.favProducts,
+        isAuthenticated: state.auth.token !== null
     };
 };
 

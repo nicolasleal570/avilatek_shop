@@ -1,12 +1,16 @@
 import React, { Component, Fragment } from 'react'
 
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
 
 import { getFavorites } from '../store/actions/favorite'
 
 import Pagination from '../components/Pagination';
-import Card from '../components/ProductCard';
 import Loader from '../components/Loader';
+
+import { authAxios } from '../http/utils';
+import { removeFromFavorite } from '../http/urls';
+
 
 class Favorites extends Component {
     constructor() {
@@ -48,12 +52,21 @@ class Favorites extends Component {
 
     }
 
+    deleteElement = slug => {
+        authAxios.post(removeFromFavorite, { slug }).then(res => {
+            console.log('[DELETED] ', slug);
+            this.props.getFavorites(localStorage.getItem('token'));
+            alert("Producto eliminado correctamente")
+
+        }).catch(err => console.log(err));
+    }
+
     render() {
         const { loading, error, favProducts } = this.props
 
         let content = null
 
-        if (error && favProducts.length < 1) {
+        if (error || favProducts.length < 1) {
             content = <div className="w-full md:w-1/4 p-6 flex flex-col flex-grow flex-shrink">
                 <div className="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
                     <div className="w-full font-bold text-xl text-gray-800 p-6 uppercase">
@@ -68,7 +81,27 @@ class Favorites extends Component {
                 </div>
 
                 {this.state.pageOfItems.map(item =>
-                    <Card key={item.id} product={item} />
+                    <div key={item.id} className="w-full md:w-1/4 p-6 flex flex-col flex-grow flex-shrink">
+                        <div className="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
+                            <Link to="/" className="flex flex-wrap no-underline hover:no-underline">
+                                <div className="w-full font-bold text-xl text-gray-800 p-6 uppercase"> {item.name}. </div>
+                                <p className="text-gray-800 text-base px-6 mb-5">{item.description}</p>
+                            </Link>
+                            <div className="px-6 py-2 mb-4">
+                                <Link to="/" className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 capitalize"># {item.category.public_name}</Link>
+                            </div>
+                            <div className="px-6 py-2 text-center">
+                                <span className="font-bold"> $ {item.price}</span>
+                            </div>
+                        </div>
+                        <div className="mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow">
+                            <div className="flex items-center justify-start px-6">
+                                <Link to="/" className="hover:underline bg-gray-500 text-white font-bold rounded-full my-4 py-2 px-8 shadow-lg">Visitar</Link>
+
+                                <button onClick={() => this.deleteElement(item.slug)} className="hover:underline bg-red-600 text-white font-bold rounded-full my-4 py-2 px-6 shadow-lg mx-2">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
                 )}
             </Fragment>
         }

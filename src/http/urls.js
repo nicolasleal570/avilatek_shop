@@ -8,3 +8,4 @@ export const productListURL = `${endpoint}/products/`;
 export const categoryListURL = `http://localhost:8000/api/categories/`;
 export const favoritesListURL = `http://localhost:8000/api/favorites/`;
 export const addToFavorite = `http://localhost:8000/api/add-to-favorite/`;
+export const removeFromFavorite = `http://localhost:8000/api/remove-from-favorite/`;

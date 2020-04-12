@@ -76,7 +76,7 @@ class Products extends Component {
                             <div className="bg-gray-100 py-8">
                                 <div className="container mx-auto flex flex-wrap pt-4 ">
                                     {this.state.pageOfItems.map(item =>
-                                        <Card key={item.id} product={item} addToFavorite={this.addToFavorite} />
+                                        <Card key={item.id} product={item} />
                                     )}
                                 </div>
                             </div>
