@@ -16,6 +16,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 
+from rest_framework.filters import SearchFilter, OrderingFilter
+from .filters import SearchBySpecificAttribute
+
 from .serializers import UserSerializer
 
 from django.contrib.auth.models import User
@@ -55,11 +58,11 @@ class ProductListView(ListAPIView):
     # pagination_class = ProductPageNumberPagination
 
 
-class ProductAttributesListView(ListAPIView):
+class ProductDetailView(RetrieveAPIView):
     permission_classes = (AllowAny,)
-    serializer_class = ProductAttributeSerializer
-    queryset = ProductAttribute.objects.all()
-    # pagination_class = ProductsLimitOffsetPagination
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
+    lookup_field = 'slug'
 
 
 class CategoryListView(ListAPIView):
@@ -81,6 +84,14 @@ class CategoryDetailView(RetrieveAPIView):
         return Response({
             'products': ProductSerializer(products, many=True).data
         }, status=HTTP_200_OK)
+
+
+class ProductAttributesListView(ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = ProductAttributeSerializer
+    queryset = ProductAttribute.objects.all()
+    filter_backends = (SearchBySpecificAttribute, )
+    # search_fields = ['value']
 
 
 class FavoriteListView(RetrieveAPIView):

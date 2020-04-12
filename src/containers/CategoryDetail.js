@@ -12,20 +12,14 @@ class CategoryDetail extends Component {
         super();
 
         this.state = {
+            products: [],
+            loading: true,
             pageOfItems: [],
             initPage: 1,
             pageSize: 5
         };
 
         this.onChangePage = this.onChangePage.bind(this);
-    }
-
-    state = {
-        products: [],
-        loading: true,
-        pageOfItems: [],
-        initPage: 1,
-        pageSize: 5,
     }
 
     componentDidMount() {

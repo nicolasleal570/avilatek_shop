@@ -5,8 +5,11 @@ const apiURL = "/api";
 export const endpoint = `${localhost}${apiURL}`;
 
 export const productListURL = `${endpoint}/products/`;
+export const productDetailURL = (slug) => `http://localhost:8000/api/products/${slug}`;
+
 export const categoryListURL = `http://localhost:8000/api/categories/`;
 export const categoryDetailURL = (slug) => `http://localhost:8000/api/categories/${slug}`;
+
 export const favoritesListURL = `http://localhost:8000/api/favorites/`;
 export const addToFavorite = `http://localhost:8000/api/add-to-favorite/`;
 export const removeFromFavorite = `http://localhost:8000/api/remove-from-favorite/`;

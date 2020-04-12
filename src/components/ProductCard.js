@@ -45,7 +45,7 @@ const Card = (props) => {
             </div>
             <div className="mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow">
                 {loading ? <Loader spinnerType='big' /> : <div className="flex items-center justify-start px-6">
-                    <Link to={`/products/${slug}`}
+                    <Link to={`/productos/${slug}`}
                         className="hover:underline bg-gray-500 text-white font-bold rounded-full my-4 py-2 px-8 shadow-lg"
                     >Visitar</Link>
 

@@ -7,6 +7,7 @@ import Signup from "./containers/Signup";
 import Products from "./containers/Products";
 import Categories from "./containers/Categories";
 import CategoryDetail from "./containers/CategoryDetail";
+import ProductDetail from "./containers/ProductDetail";
 import Favorites from "./containers/Favorites";
 import Home from "./containers/Home";
 
@@ -14,10 +15,15 @@ const BaseRouter = () => (
   <Hoc>
     <Route path="/login" component={Login} />
     <Route path="/signup" component={Signup} />
-    <Route path="/productos" component={Products} />
+
+    <Route path="/productos" exact component={Products} />
+    <Route path="/productos/:slug" component={ProductDetail} />
+
     <Route path="/categorias" exact component={Categories} />
     <Route path="/categorias/:slug" component={CategoryDetail} />
+
     <Route path="/favoritos" component={Favorites} />
+
     <Route exact path="/" component={Home} />
   </Hoc>
 );
