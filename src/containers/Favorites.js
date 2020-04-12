@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 import { getFavorites } from '../store/actions/favorite'
 
@@ -9,8 +9,8 @@ import Pagination from '../components/Pagination';
 import Loader from '../components/Loader';
 
 import { authAxios } from '../http/utils';
-import { removeFromFavorite } from '../http/urls';
-
+import { removeFromFavorite, favoritesListURL } from '../http/urls';
+import Axios from 'axios';
 
 class Favorites extends Component {
     constructor() {
@@ -53,12 +53,22 @@ class Favorites extends Component {
     }
 
     deleteElement = slug => {
-        authAxios.post(removeFromFavorite, { slug }).then(res => {
-            console.log('[DELETED] ', slug);
+        let headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${localStorage.getItem('token')}`
+        }
+        Axios.post(removeFromFavorite, { slug: slug }, { headers: headers }).then(res => {
+            console.log('[NEW ELEM] ', slug);
             this.props.getFavorites(localStorage.getItem('token'));
             alert("Producto eliminado correctamente")
+        }).catch(err => console.log(err))
 
-        }).catch(err => console.log(err));
+        // authAxios.post(removeFromFavorite, { slug }).then(res => {
+        //     console.log('[DELETED] ', slug);
+        //     this.props.getFavorites(localStorage.getItem('token'));
+        //     alert("Producto eliminado correctamente")
+
+        // }).catch(err => console.log(err));
     }
 
     render() {
@@ -108,6 +118,7 @@ class Favorites extends Component {
 
         return (
             <div>
+                {localStorage.getItem('token') === undefined ? <Redirect to="/" /> : null}
                 {
                     loading ? <Loader spinnerType='big' /> : <Fragment>
                         <section className="bg-gray-100 py-8">
@@ -134,7 +145,8 @@ const mapStateToProps = state => {
         error: state.favorite.error,
         loading: state.favorite.loading,
         favProducts: state.favorite.favProducts,
-        authToken: state.auth.token
+        token: state.auth.token,
+        isAuthenticated: state.auth.token !== null
     };
 };
 

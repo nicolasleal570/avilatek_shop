@@ -101,6 +101,7 @@ class AddToFavorite(APIView):
         product = get_object_or_404(Product, slug=slug)
 
         favorites = Favorite.objects.filter(user=user)
+        print(user.username)
 
         if favorites.exists():
             favorite = favorites.first()

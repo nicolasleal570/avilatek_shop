@@ -32,7 +32,8 @@ export const getFavorites = (token) => {
 
         axios.get(favoritesListURL, {
             headers: {
-                Authorization: `Token ${token}`
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('token')}`
             }
         }).then(res => dispatch(successFavorite(res.data))).catch(err => dispatch(failFavorites(err)))
 

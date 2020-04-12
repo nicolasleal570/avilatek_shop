@@ -4,7 +4,8 @@ import { endpoint } from "./urls";
 export const authAxios = axios.create({
     baseURL: endpoint,
     headers: {
-        Authorization: `Token ${localStorage.getItem("token")}`
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${localStorage.getItem('token')}`
     }
 });
 

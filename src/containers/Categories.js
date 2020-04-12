@@ -38,9 +38,6 @@ export class Categories extends Component {
         // update state with new page of items
         this.setState({ pageOfItems: pageOfItems });
 
-        console.log('[Current Page - OnChangeMethod]', currentPage);
-        console.log('[Page Size - OnChangeMethod]', pageSize);
-
         // GET AND SET QUERY PARAMETERS
         let currentUrlParams = new URLSearchParams(this.props.location.search);
         currentUrlParams.set('page', currentPage);

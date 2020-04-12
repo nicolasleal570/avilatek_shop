@@ -8,8 +8,6 @@ import Card from '../components/ProductCard';
 import Pagination from '../components/Pagination';
 
 import Loader from '../components/Loader';
-import { authAxios } from '../http/utils';
-import { addToFavorite } from '../http/urls'
 
 class Products extends Component {
     constructor() {
@@ -26,10 +24,6 @@ class Products extends Component {
 
     componentDidMount() {
         this.props.getProducts();
-
-        if (this.props.isAuthenticated) {
-            this.props.getFavorites(localStorage.getItem("token"));
-        }
 
         let param = new URLSearchParams(this.props.location.search)
         const pageNum = Math.abs(Number(param.get('page')));
@@ -51,16 +45,6 @@ class Products extends Component {
         currentUrlParams.set('page', currentPage);
         currentUrlParams.set('limit', pageSize);
         this.props.history.push(this.props.location.pathname + "?" + currentUrlParams.toString());
-
-    }
-
-    addToFavorite = slug => {
-        if (this.props.isAuthenticated) {
-            console.log('[SLUG] ', slug);
-            authAxios.post(addToFavorite, { slug }).then(res => {
-                console.log('[FAV ITEM AGREGADO] ', slug);
-            });
-        }
 
     }
 
