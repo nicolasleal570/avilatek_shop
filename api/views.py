@@ -66,7 +66,21 @@ class CategoryListView(ListAPIView):
     permission_classes = (AllowAny,)
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
-    # pagination_class = ProductsLimitOffsetPagination
+
+
+class CategoryDetailView(RetrieveAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+    lookup_field = 'slug'
+
+    def get(self, request, slug):
+        category = Category.objects.get(slug=slug)
+        products = Product.objects.filter(category=category)
+
+        return Response({
+            'products': ProductSerializer(products, many=True).data
+        }, status=HTTP_200_OK)
 
 
 class FavoriteListView(RetrieveAPIView):
@@ -101,7 +115,6 @@ class AddToFavorite(APIView):
         product = get_object_or_404(Product, slug=slug)
 
         favorites = Favorite.objects.filter(user=user)
-        print(user.username)
 
         if favorites.exists():
             favorite = favorites.first()

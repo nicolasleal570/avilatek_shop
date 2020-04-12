@@ -5,20 +5,24 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getFavorites } from '../store/actions/favorite'
 
-import { authAxios } from '../http/utils';
+import Loader from './Loader';
+
 import { addToFavorite } from '../http/urls'
 import Axios from 'axios';
 const Card = (props) => {
 
     const { id, name, description, price, slug, category } = props.product;
+    const [loading, setLoading] = useState(false);
 
     const newElemToFav = slug => {
+        setLoading(true);
         let headers = {
             'Content-Type': 'application/json',
             'Authorization': `Token ${localStorage.getItem('token')}`
         }
         Axios.post(addToFavorite, { slug: slug }, { headers: headers }).then(res => {
             console.log('[NEW ELEM] ', slug);
+            setLoading(false);
             alert('Elemento agregado correctamente!');
         }).catch(err => console.log(err))
     }
@@ -40,11 +44,11 @@ const Card = (props) => {
                 </div>
             </div>
             <div className="mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow">
-                <div className="flex items-center justify-start px-6">
+                {loading ? <Loader spinnerType='big' /> : <div className="flex items-center justify-start px-6">
                     <Link to="/" className="hover:underline bg-gray-500 text-white font-bold rounded-full my-4 py-2 px-8 shadow-lg">Visitar</Link>
 
                     {props.isAuthenticated ? <button onClick={() => newElemToFav(slug)} className="hover:underline bg-avilaGreen-200 text-white font-bold rounded-full my-4 py-2 px-6 shadow-lg mx-2">Favorito</button> : null}
-                </div>
+                </div>}
             </div>
         </div>
     )

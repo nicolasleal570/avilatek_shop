@@ -19,7 +19,8 @@ class Favorites extends Component {
         this.state = {
             pageOfItems: [],
             initPage: 1,
-            pageSize: 5
+            pageSize: 5,
+            loading: false
         };
 
         this.onChangePage = this.onChangePage.bind(this);
@@ -53,22 +54,23 @@ class Favorites extends Component {
     }
 
     deleteElement = slug => {
+        this.setState({
+            ...this.state,
+            loading: true
+        });
         let headers = {
             'Content-Type': 'application/json',
             'Authorization': `Token ${localStorage.getItem('token')}`
         }
         Axios.post(removeFromFavorite, { slug: slug }, { headers: headers }).then(res => {
             console.log('[NEW ELEM] ', slug);
+            this.setState({
+                ...this.state,
+                loading: false
+            });
             this.props.getFavorites(localStorage.getItem('token'));
             alert("Producto eliminado correctamente")
         }).catch(err => console.log(err))
-
-        // authAxios.post(removeFromFavorite, { slug }).then(res => {
-        //     console.log('[DELETED] ', slug);
-        //     this.props.getFavorites(localStorage.getItem('token'));
-        //     alert("Producto eliminado correctamente")
-
-        // }).catch(err => console.log(err));
     }
 
     render() {
@@ -105,11 +107,11 @@ class Favorites extends Component {
                             </div>
                         </div>
                         <div className="mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow">
-                            <div className="flex items-center justify-start px-6">
+                            {this.state.loading ? <Loader spinnerType='big' /> : <div className="flex items-center justify-start px-6">
                                 <Link to="/" className="hover:underline bg-gray-500 text-white font-bold rounded-full my-4 py-2 px-8 shadow-lg">Visitar</Link>
 
                                 <button onClick={() => this.deleteElement(item.slug)} className="hover:underline bg-red-600 text-white font-bold rounded-full my-4 py-2 px-6 shadow-lg mx-2">Eliminar</button>
-                            </div>
+                            </div>}
                         </div>
                     </div>
                 )}
