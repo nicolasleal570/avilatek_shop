@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Link } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+import { getFavorites } from '../store/actions/favorite'
+
 const Card = (props) => {
+
     const { id, name, description, price, slug, category } = props.product;
+
+    const isFav = props.favProducts.find(item => slug === item.slug);
+    const [isClicked, setIsClicked] = useState(isFav)
+
+    const newElemToFav = slug => {
+        if (!isClicked) {
+            props.addToFavorite(slug)
+            setIsClicked(true)
+        }
+    }
 
     return (
         <div className="w-full md:w-1/4 p-6 flex flex-col flex-grow flex-shrink">
@@ -21,13 +35,29 @@ const Card = (props) => {
                     <span className="font-bold"> $ {price}</span>
                 </div>
             </div>
-            <div className="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow">
-                <div className="flex items-center justify-center">
-                    <Link to="/" className="mx-auto lg:mx-0 hover:underline bg-avilaGreen-200 text-white font-bold rounded-full my-4 py-4 px-8 shadow-lg">Visitar</Link>
+            <div className="mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow">
+                <div className="flex items-center justify-start px-6">
+                    <Link to="/" className="hover:underline bg-gray-500 text-white font-bold rounded-full my-4 py-2 px-8 shadow-lg">Visitar</Link>
+
+                    {!isClicked ? <button onClick={() => newElemToFav(slug)} className="hover:underline bg-avilaGreen-200 text-white font-bold rounded-full my-4 py-2 px-6 shadow-lg mx-2">Favorito</button> : null}
                 </div>
             </div>
         </div>
     )
 }
 
-export default Card;
+const mapStateToProps = state => {
+    return {
+        error: state.favorite.error,
+        loading: state.favorite.loading,
+        favProducts: state.favorite.favProducts,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getFavorites: () => dispatch(getFavorites())
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Card);

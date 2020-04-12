@@ -75,7 +75,7 @@ class FavoriteListView(RetrieveAPIView):
 
     def get_object(self):
         try:
-            favorite = Favorite.objects.get(user=self.request.user)
+            favorite = Favorite.objects.filter(user=self.request.user)
             return favorite
         except ObjectDoesNotExist:
             raise Http404("Aun no has agregado objetos a tus favoritos.")
