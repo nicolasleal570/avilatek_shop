@@ -14,7 +14,6 @@ class Product(models.Model):
     class Meta:
         verbose_name = "product"
         verbose_name_plural = "products"
-        ordering = ['id']
 
     def __str__(self):
         return self.name
@@ -66,8 +65,8 @@ class Attribute(models.Model):
 class Favorite(models.Model):
 
     products = models.ManyToManyField("api.Product")
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "favorite"

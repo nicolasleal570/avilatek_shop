@@ -24,14 +24,15 @@ export const failFavorites = err => {
     }
 }
 
-export const getFavorites = () => {
+export const getFavorites = (token) => {
+    console.log('[TOKEN] ', token);
     return dispatch => {
 
         dispatch(startFavorite())
 
         axios.get(favoritesListURL, {
             headers: {
-                Authorization: `Token ${localStorage.getItem("token")}`
+                Authorization: `Token ${token}`
             }
         }).then(res => dispatch(successFavorite(res.data))).catch(err => dispatch(failFavorites(err)))
 

@@ -70,7 +70,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
         fields = ('id', 'products', 'user')
 
     def get_products(self, obj):
-        return ProductSerializer(obj.products).data
+        return ProductSerializer(obj.products.all(), many=True).data
 
     def get_user(self, obj):
         return UserSerializer(obj.user).data

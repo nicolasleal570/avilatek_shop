@@ -22,7 +22,7 @@ class Favorites extends Component {
     }
 
     componentDidMount() {
-        this.props.getFavorites();
+        this.props.getFavorites(localStorage.getItem("token"));
 
         let param = new URLSearchParams(this.props.location.search)
         const pageNum = Math.abs(Number(param.get('page')));
@@ -101,12 +101,13 @@ const mapStateToProps = state => {
         error: state.favorite.error,
         loading: state.favorite.loading,
         favProducts: state.favorite.favProducts,
+        authToken: state.auth.token
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        getFavorites: () => dispatch(getFavorites())
+        getFavorites: (token) => dispatch(getFavorites(token))
     };
 };
 

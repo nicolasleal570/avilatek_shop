@@ -28,7 +28,7 @@ class Products extends Component {
         this.props.getProducts();
 
         if (this.props.isAuthenticated) {
-            this.props.getFavorites();
+            this.props.getFavorites(localStorage.getItem("token"));
         }
 
         let param = new URLSearchParams(this.props.location.search)
@@ -101,7 +101,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getProducts: () => dispatch(getProducts()),
-        getFavorites: () => dispatch(getFavorites()),
+        getFavorites: (slug) => dispatch(getFavorites(slug)),
     };
 };
 
