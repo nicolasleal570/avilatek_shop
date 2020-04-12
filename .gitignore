@@ -4,6 +4,5 @@ env
 db.sqlite3
 node_modules
 build
-static
 package-lock.json
 .vscode
