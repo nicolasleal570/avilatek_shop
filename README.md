@@ -21,6 +21,18 @@ npm start
 
 ## API End Points
 
+* Users login
+    ```
+    POST: /rest-auth/login/
+    ```
+* Users signup
+    ```
+    POST: /rest-auth/registration/
+    ```
+* Users login
+    ```
+    POST: /rest-auth/login/
+    ```
 * Show all users
     ```
     GET: /api/users/
@@ -28,6 +40,7 @@ npm start
 * Show all products
     ```
     GET: /api/products/
+    ```
 * Show one product
     ```
     GET: /api/products/<slug>/
@@ -35,7 +48,8 @@ npm start
 * Show all categories
     ```
     GET: /api/categories/
-* Show one categorie
+    ```
+* Show one category
     ```
     GET: /api/categories/<slug>/
     ```
@@ -46,12 +60,15 @@ npm start
 * Show all attributes
     ```
     GET: /api/attributes/
+    ```
 * Show all attributes with the value and product
     ```
     GET: /api/products-attributes/
+    ```
 * Add one product in the request user favorites products
     ```
     POST: /api/add-to-favorite/
+    ```
 * Remove one product in the request user favorites products
     ```
     POST: /api/remove-from-favorite/
